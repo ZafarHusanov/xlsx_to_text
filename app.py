@@ -1,4 +1,5 @@
 import re
+from datetime import datetime, timedelta
 
 from flask import Flask, request, send_file, render_template
 import pandas as pd
@@ -39,10 +40,26 @@ def process_excel(excel_file):
                     playlist_day = playlist_day.replace(".", "")
                     dm = playlist_day[:4]
                     playlist_day = dm + playlist_day[6:]
+                    standart_day = playlist_day
                 bt = str(row[3])
                 if len(bt) == 8:
                     break_time = bt.replace(":", "")
                     break_time = break_time[:4]
+                    if int(break_time[:2]) > 23:
+                        break_time_minut = break_time[2:]
+                        break_time = int(break_time[:2]) - 24
+                        break_time = str(f'{break_time:02d}') + break_time_minut
+                        if standart_day == playlist_day:
+                            # Sana formatini aniqlash
+                            date_format = '%d%m%y'
+                            # Sana obyektiga aylantiramiz
+                            given_date = datetime.strptime(playlist_day, date_format)
+                            # Keyingi kuni topish
+                            next_day = given_date + timedelta(days=1)
+                            # Keyingi kuni string formatga o'tkazish
+                            playlist_day = next_day.strftime(date_format)
+                    else:
+                        playlist_day = standart_day
                 if type(row[4]) == int:
                     try:
                         if len(str(count)) < 4:
@@ -106,11 +123,14 @@ def process_excel(excel_file):
                             break
                         fill_with_space = ''.ljust(40)
                         for_text += fill_with_space
-                        txt_file.write(for_text + '\n')
+                        if int(nr) == 1:
+                            txt_file.write(for_text)
+                        else:
+                            txt_file.write('\n' + for_text)
                         print(for_text, '****', 'LEN:', len(for_text), '****')
                     except Exception as e:
                         try:
-                            #Total_2024_20_сек_узб xatolik uchun
+                            # Total_2024_20_сек_узб xatolik uchun
                             last_underscore_index = row[5].rfind('_')
                             second_last_underscore_index = row[5].rfind('_', 0, last_underscore_index)
                             third_last_underscore_index = row[5].rfind('_', 0, second_last_underscore_index)
@@ -137,17 +157,22 @@ def process_excel(excel_file):
                                 break
                             fill_with_space = ''.ljust(40)
                             for_text += fill_with_space
-                            txt_file.write(for_text + '\n')
+                            if int(nr) == 1:
+                                txt_file.write(for_text)
+                            else:
+                                txt_file.write('\n' + for_text)
                             print(for_text, '****', 'LEN:', len(for_text), '**** try')
                         except:
                             print('Yozishda xatolik', e, row[5])
             except Exception as e:
                 pass
+
         if len(error_process) > 0:
             txt_file.write(str(error_process))
             print(f'!!! {error_process} !!!')
         else:
             print(f"*** Ma'lumotlar yangi faylga muvaffaqiyatli yozildi. Qatorlar soni: {count-1}. ***")
+
     return txt_filename
 def process_string(value):
     new_value = ''.join(TRANSLATION.get(char, char) for char in value)

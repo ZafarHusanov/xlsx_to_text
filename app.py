@@ -21,8 +21,10 @@ def upload_file():
     if file.filename == '':
         return 'No selected file'
     if file:
-        backup_input_file_name = str(datetime.now().date()) + '_' + file.filename
-        backup_output_file_name = str(datetime.now().date()) + '_' + file.filename + '_to_output.txt'
+        sana = str(datetime.now().date())
+        soat = str(datetime.now().time().hour) + str(datetime.now().time().minute) + str(datetime.now().time().second)
+        backup_input_file_name = sana + '_' + soat + file.filename
+        backup_output_file_name = sana + '_' + soat+ file.filename + '_to_output.txt'
         input_destination_folder = './input_file/'
         output_destination_folder = './output_file/'
         filename = 'uploaded.xlsx'
@@ -81,12 +83,12 @@ def process_excel(excel_file):
                         if len(playlist_day) == 6:
                             for_text += playlist_day
                         else:
-                            error_process += f' *** playlist_day_error_len {playlist_day} *** '
+                            error_process += f' *** playlist_day_error_len {row.iloc[4]} *** '
                             break
                         if len(break_time) == 4:
                             for_text += break_time
                         else:
-                            error_process += f' *** break_time_error_len {break_time} *** '
+                            error_process += f' *** break_time_error_len {row.iloc[4]} *** '
                             break
                         pattern = r'\d+'
                         if str(row.iloc[4]).startswith('5'):
@@ -117,7 +119,7 @@ def process_excel(excel_file):
                                 elif len(str(duration_of_spot)) == 3:
                                     for_text += '0' + duration_of_spot + '00'
                             else:
-                                error_process += f' *** duration_of_spot_error_len {row.iloc[5]} *** '
+                                error_process += f' *** duration_of_spot_error_len {row.iloc[4]} *** '
                                 break
                         result = process_string(row.iloc[5])
                         for_text += result
@@ -136,7 +138,7 @@ def process_excel(excel_file):
                             txt_file.write(for_text)
                         else:
                             txt_file.write('\n' + for_text)
-                        print(for_text, '****', 'LEN:', len(for_text), '****')
+                        # print(for_text, '****', 'LEN:', len(for_text), '****')
                     except Exception as e:
                         try:
                             # Total_2024_20_сек_узб xatolik uchun
@@ -154,6 +156,9 @@ def process_excel(excel_file):
                                     for_text += '00' + duration_of_spot + '00'
                                 elif len(str(duration_of_spot)) == 3:
                                     for_text += '0' + duration_of_spot + '00'
+                            else:
+                                error_process += f' *** duration_of_spot_error_len {row.iloc[4]} *** '
+                                break
                             result = process_string(row.iloc[5])
                             for_text += result
                             if len(str(row.iloc[4])) < 10:
@@ -170,9 +175,9 @@ def process_excel(excel_file):
                                 txt_file.write(for_text)
                             else:
                                 txt_file.write('\n' + for_text)
-                            print(for_text, '****', 'LEN:', len(for_text), '**** try')
+                            # print(for_text, '****', 'LEN:', len(for_text), '**** try')
                         except:
-                            error_process += f' *** Yozishda xatolik {e, row.iloc[5]}  *** '
+                            error_process += f' *** Yozishda xatolik {e, row.iloc[4]}  *** '
                             print('Yozishda xatolik', e, row.iloc[5])
             except Exception as e:
                 pass

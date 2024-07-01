@@ -23,20 +23,24 @@ def upload_file():
     if file:
         sana = str(datetime.now().date())
         soat = str(datetime.now().time().hour) + str(datetime.now().time().minute) + str(datetime.now().time().second)
-        backup_input_file_name = sana + '_' + soat + file.filename
-        backup_output_file_name = sana + '_' + soat+ file.filename + '_to_output.txt'
+        file_name = sana + '_' + soat + '_' + str(file.filename[:file.filename.rfind('.')])
         input_destination_folder = './input_file/'
         output_destination_folder = './output_file/'
         filename = 'uploaded.xlsx'
         file.save(filename)
-        shutil.copy(filename, os.path.join(input_destination_folder, backup_input_file_name))
-        txt_filename = process_excel(filename)
-        shutil.copy(txt_filename, os.path.join(output_destination_folder, backup_output_file_name))
+        shutil.copy(filename, os.path.join(input_destination_folder, f'{file_name}.xlsx'))
+        txt_filename = process_excel(excel_file=filename, response_file_name=file_name)
+        res_file = shutil.copy(txt_filename, os.path.join(output_destination_folder, f'final_{file_name}.txt'))
         remove_old_files()
-        return send_file(txt_filename, as_attachment=True)
-def process_excel(excel_file):
+        if os.path.exists(txt_filename):
+            os.remove(txt_filename)
+        else:
+            print("The file does not exist")
+        return send_file(res_file, as_attachment=True)
+def process_excel(excel_file, response_file_name):
+    print(excel_file)
     df = pd.read_excel(excel_file)  # Excel faylini pandas DataFrame-ga yuklash
-    txt_filename = 'output.txt'
+    txt_filename = f'{response_file_name}.txt'
     error_process = ''
     playlist_day = ''
     break_time = ''

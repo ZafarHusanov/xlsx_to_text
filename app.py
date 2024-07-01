@@ -38,7 +38,6 @@ def upload_file():
             print("The file does not exist")
         return send_file(res_file, as_attachment=True)
 def process_excel(excel_file, response_file_name):
-    print(excel_file)
     df = pd.read_excel(excel_file)  # Excel faylini pandas DataFrame-ga yuklash
     txt_filename = f'{response_file_name}.txt'
     error_process = ''
@@ -58,7 +57,13 @@ def process_excel(excel_file, response_file_name):
                     standart_day = playlist_day
                 bt = str(row.iloc[3])
                 if len(bt) == 8:
-                    break_time = bt.replace(":", "")
+                    if bt[2] == ':':
+                        break_time = bt.replace(":", "")
+                    elif bt[2] == '.':
+                        break_time = bt.replace(".", "")
+                    else:
+                        error_process += f' *** break_time_error Format {row.iloc[4]} *** '
+                        break
                     break_time = break_time[:4]
                     if int(break_time[:2]) > 23:
                         break_time_minut = break_time[2:]

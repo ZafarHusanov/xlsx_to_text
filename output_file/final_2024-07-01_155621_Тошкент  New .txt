@@ -1,0 +1,46 @@
+0001C0207240620007500Monada Amon Shifo_75 sec      50013                                             
+0002C0207240700015700Football_59_IYUN­_157         50006                                             
+0003C0207240700000500Lochin -1 _5 sec              50009                                             
+0004C0207240800007500Monada Amon Shifo_75 sec      50013                                             
+0005C0207240840003500Mental Med Hospital_35 sec    50012                                             
+0006C0207240920003500Mental Med Hospital_35 sec    50012                                             
+0007C0207240920007500Monada Amon Shifo_75 sec      50013                                             
+0008C0207240940015700Football_60_IYUN­_157         50007                                             
+0009C0207240940000500Lochin -1 _5 sec              50009                                             
+0010C0207241020003500Mental Med Hospital_35 sec    50012                                             
+0011C0207241040007500Monada Amon Shifo_75 sec      50013                                             
+0012C0207241100015700Football_59_IYUN­_157         50006                                             
+0013C0207241100000500Lochin -1 _5 sec              50009                                             
+0014C0207241200015700Football_60_IYUN­_157         50007                                             
+0015C0207241200000500Lochin -1 _5 sec              50009                                             
+0016C0207241220007500Monada Amon Shifo_75 sec      50013                                             
+0017C0207241240003500Mental Med Hospital_35 sec    50012                                             
+0018C0207241300015700Football_59_IYUN­_157         50006                                             
+0019C0207241300000500Lochin -1 _5 sec              50009                                             
+0020C0207241340003500Mental Med Hospital_35 sec    50012                                             
+0021C0207241500007500Monada Amon Shifo_75 sec      50013                                             
+0022C0207241540003500Mental Med Hospital_35 sec    50012                                             
+0023C0207241640003500Mental Med Hospital_35 sec    50012                                             
+0024C0207241700015700Football_60_IYUN­_157         50007                                             
+0025C0207241700000500Lochin -1 _5 sec              50009                                             
+0026C0207241720007500Monada Amon Shifo_75 sec      50013                                             
+0027C0207241740007500Monada Amon Shifo_75 sec      50013                                             
+0028C0207241800015700Football_59_IYUN­_157         50006                                             
+0029C0207241800000500Lochin -1 _5 sec              50009                                             
+0030C0207241840003500Mental Med Hospital_35 sec    50012                                             
+0031C0207241900003500Mental Med Hospital_35 sec    50012                                             
+0032C0207241900007500Monada Amon Shifo_75 sec      50013                                             
+0033C0207241940003500Mental Med Hospital_35 sec    50012                                             
+0034C0207242000007500Monada Amon Shifo_75 sec      50013                                             
+0035C0207242020003500Mental Med Hospital_35 sec    50012                                             
+0036C0207242100015700Football_60_IYUN­_157         50007                                             
+0037C0207242100000500Lochin -1 _5 sec              50009                                             
+0038C0207242120007500Monada Amon Shifo_75 sec      50013                                             
+0039C0207242140003500Mental Med Hospital_35 sec    50012                                             
+0040C0207242140007500Monada Amon Shifo_75 sec      50013                                             
+0041C0207242200015700Football_59_IYUN­_157         50006                                             
+0042C0207242200000500Lochin -1 _5 sec              50009                                             
+0043C0207242200007500Monada Amon Shifo_75 sec      50013                                             
+0044C0207242220003500Mental Med Hospital_35 sec    50012                                             
+0045C0207242300015700Football_59_IYUN­_157         50006                                             
+0046C0207242300000500Lochin -1 _5 sec              50009                                             

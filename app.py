@@ -5,7 +5,7 @@ from datetime import datetime, timedelta, date
 
 from flask import Flask, request, send_file, render_template
 import pandas as pd
-from latters_and_symbols import TRANSLATION
+from latters_and_symbols import TRANSLATION, HARFLAR
 
 app = Flask(__name__)
 
@@ -120,17 +120,29 @@ def process_excel(excel_file, response_file_name):
                                 duration_of_spot = row.iloc[5]
                                 duration_of_spot = duration_of_spot[second_last_underscore_index + 1: last_underscore_index]
                                 duration_of_spot = re.findall(pattern, duration_of_spot)
-                                duration_of_spot = duration_of_spot[0]
-                                if len(str(duration_of_spot)) == 1:
-                                    for_text += '000' + duration_of_spot + '00'
-                                elif len(str(duration_of_spot)) == 2:
-                                    for_text += '00' + duration_of_spot + '00'
-                                elif len(str(duration_of_spot)) == 3:
-                                    for_text += '0' + duration_of_spot + '00'
+                                if len(duration_of_spot) == 0:
+                                    duration_of_spot = row.iloc[5]
+                                    duration_of_spot = duration_of_spot[last_underscore_index + 1:]
+                                    duration_of_spot = re.findall(pattern, duration_of_spot)
+                                    duration_of_spot = duration_of_spot[0]
+                                    if len(str(duration_of_spot)) == 1:
+                                        for_text += '000' + duration_of_spot + '00'
+                                    elif len(str(duration_of_spot)) == 2:
+                                        for_text += '00' + duration_of_spot + '00'
+                                    elif len(str(duration_of_spot)) == 3:
+                                        for_text += '0' + duration_of_spot + '00'
+                                else:
+                                    duration_of_spot = duration_of_spot[0]
+                                    if len(str(duration_of_spot)) == 1:
+                                        for_text += '000' + duration_of_spot + '00'
+                                    elif len(str(duration_of_spot)) == 2:
+                                        for_text += '00' + duration_of_spot + '00'
+                                    elif len(str(duration_of_spot)) == 3:
+                                        for_text += '0' + duration_of_spot + '00'
                             else:
                                 error_process += f' *** duration_of_spot_error_len {row.iloc[4]} *** '
                                 break
-                        result = process_string(row.iloc[5])
+                        result = almashtir(row.iloc[5])
                         for_text += result
 
                         if len(str(row.iloc[4])) < 10:
@@ -147,7 +159,7 @@ def process_excel(excel_file, response_file_name):
                             txt_file.write(for_text)
                         else:
                             txt_file.write('\n' + for_text)
-                        # print(for_text, '****', 'LEN:', len(for_text), '****')
+                        print(for_text, '****', 'LEN:', len(for_text), '****')
                     except Exception as e:
                         try:
                             # Total_2024_20_сек_узб xatolik uchun
@@ -168,7 +180,7 @@ def process_excel(excel_file, response_file_name):
                             else:
                                 error_process += f' *** duration_of_spot_error_len {row.iloc[4]} *** '
                                 break
-                            result = process_string(row.iloc[5])
+                            result = almashtir(row.iloc[5])
                             for_text += result
                             if len(str(row.iloc[4])) < 10:
                                 new_id = str(row.iloc[4]).ljust(10)
@@ -184,7 +196,7 @@ def process_excel(excel_file, response_file_name):
                                 txt_file.write(for_text)
                             else:
                                 txt_file.write('\n' + for_text)
-                            # print(for_text, '****', 'LEN:', len(for_text), '**** try')
+                            print(for_text, '****', 'LEN:', len(for_text), '**** try')
                         except:
                             error_process += f' *** Yozishda xatolik {e, row.iloc[4]}  *** '
                             print('Yozishda xatolik', e, row.iloc[5])
@@ -199,15 +211,25 @@ def process_excel(excel_file, response_file_name):
         print(f"*** Ma'lumotlar yangi faylga muvaffaqiyatli yozildi. Qatorlar soni: {count-1}. ***")
 
     return txt_filename
-def process_string(value):
-    new_value = ''.join(TRANSLATION.get(char, char) for char in value)
-    if len(new_value) < 30:
-        new_value = new_value.ljust(30)
-    else:
-        new_value = new_value[:28]
-        new_value = new_value.ljust(30)
-    return new_value
 
+def almashtir(matn):
+    yangi_matn = ""
+    for belgi in matn:
+        if belgi.isdigit():
+            yangi_matn += belgi
+        elif belgi in HARFLAR:
+            yangi_matn += belgi
+        else:
+            if belgi in TRANSLATION:
+                yangi_matn += TRANSLATION[belgi]
+            else:
+                yangi_matn += "_"
+    if len(yangi_matn) < 30:
+        yangi_matn = yangi_matn.ljust(30)
+    else:
+        yangi_matn = yangi_matn[:28]
+        yangi_matn = yangi_matn.ljust(30)
+    return yangi_matn
 def remove_old_files():
     papka_input = 'input_file'
     papka_output = 'output_file'

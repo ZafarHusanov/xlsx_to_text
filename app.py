@@ -265,6 +265,5 @@ def remove_old_files():
             except ValueError:
                 continue  # Fayl nomi sana formatiga mos kelmaydi
 
-
 if __name__ == '__main__':
     app.run(host='0.0.0.0', debug=True)
